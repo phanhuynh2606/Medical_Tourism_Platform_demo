@@ -337,15 +337,15 @@ export const MOCK_USERS = [
 
 export function getStoredLeads(): Lead[] {
   if (typeof window === "undefined") return MOCK_LEADS;
-  const saved = localStorage.getItem("medbridge_leads");
-  if (saved) {
-    try {
+  try {
+    const saved = localStorage.getItem("medbridge_leads");
+    if (saved) {
       return JSON.parse(saved);
-    } catch (e) {
-      console.error("Failed to parse stored leads:", e);
     }
+    localStorage.setItem("medbridge_leads", JSON.stringify(MOCK_LEADS));
+  } catch (e) {
+    console.error("Failed to access or parse localStorage:", e);
   }
-  localStorage.setItem("medbridge_leads", JSON.stringify(MOCK_LEADS));
   return MOCK_LEADS;
 }
 
